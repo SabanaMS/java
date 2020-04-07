@@ -1,50 +1,31 @@
 package com.goldys.apigatewayservice.config;
 
-import com.goldys.apigatewayservice.filter.JwtFilter;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
+/*
+ * Annotate the class with @Configuration
+ */
 @Configuration
 public class BeanConfig {
 
-    @Bean
-    public FilterRegistrationBean jwtFilter() {
-
-        FilterRegistrationBean filter = new FilterRegistrationBean();
-        filter.setFilter(new JwtFilter());
-        filter.addUrlPatterns("/gymservice/api/v1/gymservice/*");
-        filter.addUrlPatterns("/gymservice/api/v2/gymservice/*");
-        filter.addUrlPatterns("/enquiryservice/api/v1/enquiryservice/admin/*");
-        filter.addUrlPatterns("/ticketservice/api/v1/ticketservice/*");
-
-        return filter;
-
-    }
-
-
-    @Bean
-    public CorsFilter corsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
+    /*
+     *  Create a bean for FilterRegistrationBean.
+     *  1. Register the JwtFilter
+     *  2. add URL pattern for the following patterns so that any request for
+     *     that URL pattern will be intercepted by the filter.
+     *     - Gym Service("/api/v1/gymservice/*")
+     *     - Gym Service("/api/v2/gymservice/*")
+     *     - Enquiry Service("/api/v1/enquiryservice/admin/*")
+     *     - Ticket Service(/api/v1/ticketservice/*)
+     *
+     *  Hint: As the Zuul API Gateway will be interrogating the Eureka
+     *  Service discovery, hence the intercepting URL might need to be prefixed with
+     *  some value.
+     */
 
 
-        config.setAllowCredentials(true);
-        config.addAllowedOrigin("*");
-        config.addAllowedMethod("OPTIONS");
-        config.addAllowedMethod("HEAD");
-        config.addAllowedMethod("GET");
-        config.addAllowedMethod("POST");
-        config.addAllowedMethod("PUT");
-        config.addAllowedMethod("DELETE");
-        config.addAllowedMethod("PATCH");
-        source.registerCorsConfiguration("*", config);
+    /* Add CORS Filter to allow request from all external clients */
 
-        return new CorsFilter(source);
 
-    }
 
 }
