@@ -23,7 +23,8 @@ import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class UserControllerTest {
@@ -115,21 +116,13 @@ public class UserControllerTest {
 
     }
 
-    @Test
-    public void validateUserSuccess() throws Exception {
+    /*
+     * Write positive and negative test cases to test validate methods
+     * to test whether it is working as per the specification.
+     *
+     * You need to implement mocking using Mockito API.
+     */
 
-        when(userService.validate(any())).thenReturn(true);
-        mockMvc.perform(get("/api/v1/userservice/abc").contentType(MediaType.APPLICATION_JSON).content(asJsonString(user)))
-                .andExpect(status().isOk()).andDo(MockMvcResultHandlers.print());
-    }
-
-    @Test
-    public void validateUserFailure() throws Exception {
-
-        when(userService.validate(any())).thenReturn(false);
-        mockMvc.perform(get("/api/v1/userservice/xyz").contentType(MediaType.APPLICATION_JSON).content(asJsonString(user)))
-                .andExpect(status().isOk()).andDo(MockMvcResultHandlers.print());
-    }
 
 
     public static String asJsonString(final Object obj) {
