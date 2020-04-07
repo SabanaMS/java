@@ -1,6 +1,4 @@
-spring:
-  application:
-    name: user-service
-  cloud:
-    config:
-      uri: http://localhost:8888
+# We are using Spring Cloud Config Server to centralize the configuration of all microservices.
+# hence, this application should not have any local config in application.properties or
+# application.yml for configurations. It will only have a bootstrap.yml file which will
+# contain the application name and URI of cloud config server.
