@@ -4,7 +4,6 @@ import com.goldys.userservice.exception.InvalidCredentialsException;
 import com.goldys.userservice.exception.UserAlreadyExistsException;
 import com.goldys.userservice.exception.UserNotFoundException;
 import com.goldys.userservice.model.User;
-import com.goldys.userservice.proxy.UserServiceProxy;
 import com.goldys.userservice.security.SecurityTokenGenerator;
 import com.goldys.userservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +26,7 @@ public class UserController {
     @Autowired
     private SecurityTokenGenerator securityTokenGenerator;
 
-    @Autowired
-    private UserServiceProxy userServiceProxy;
+    /* Autowire UserServiceProxy to allow Load Balancing */
 
     @Cacheable(value = "users")
     @PostMapping

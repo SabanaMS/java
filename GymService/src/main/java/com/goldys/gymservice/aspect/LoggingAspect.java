@@ -8,16 +8,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
-/* Annotate this class with @Aspect and @Component */
 @Aspect
 @Component
 public class LoggingAspect {
-
-    /*
-	 * Write loggers for each of the methods of ProgramController, any particular method
-	 * will have all the four aspectJ annotation
-	 * (@Before, @After, @AfterReturning, @AfterThrowing).
-	 */
 
     private static final Logger logger = LoggerFactory.getLogger(LoggingAspect.class);
     private static final String METHODNAME = "Method Name : {}";
