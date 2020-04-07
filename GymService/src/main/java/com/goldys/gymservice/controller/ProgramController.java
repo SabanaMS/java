@@ -1,0 +1,146 @@
+package com.goldys.gymservice.controller;
+
+import com.goldys.gymservice.exception.ProgramAlreadyExistsException;
+import com.goldys.gymservice.exception.ProgramNotFoundException;
+import com.goldys.gymservice.model.Program;
+import com.goldys.gymservice.proxy.GymServiceProxy;
+import com.goldys.gymservice.service.ProgramService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+/*
+ * As in this assignment, we are working with creating RESTful web service, hence annotate
+ * the class with @RestController annotation. A class annotated with @Controller annotation
+ * has handler methods which returns a view. However, if we use @ResponseBody annotation along
+ * with @Controller annotation, it will return the data directly in a serialized
+ * format. Starting from Spring 4 and above, we can use @RestController annotation which
+ * is equivalent to using @Controller and @ResponseBody annotation
+ *
+ * Please note that the default path to use this controller should be "/api"
+ */
+@RestController
+@RequestMapping("/api")
+public class ProgramController {
+
+    /*
+	 * Autowiring should be implemented for the ProgramService. Please note that we
+	 * should not create any object using the new keyword
+	 */
+    @Autowired
+    private ProgramService programService;
+
+    @Autowired
+    private GymServiceProxy gymServiceProxy;
+
+    /* API Version: 1.0
+	 * Define a handler method which will get us all programs.
+	 *
+	 * This handler method should return any one of the status messages basis on
+	 * different situations:
+	 * 1. 200(OK) - If all programs found successfully.
+	 *
+	 * This handler method should map to the URL "/api/v1/gymservice" using HTTP GET
+	 * method.
+	 * This Endpoint should be cacheble to reduce calls.
+	 */
+    @Cacheable(value = "programs")
+    @GetMapping("/v1/gymservice")
+    public ResponseEntity<?> listAllPrograms() {
+        return new ResponseEntity<>(programService.listAllPrograms(), HttpStatus.OK);
+    }
+
+    /* API Version: 2.0
+     * Define a handler method which will get us all active programs.
+     *
+     * This handler method should return any one of the status messages basis on
+     * different situations:
+     * 1. 200(OK) - If all active programs found successfully.
+     *
+     * This handler method should map to the URL "/api/v2/gymservice/showAllActive" using HTTP GET
+     * method.
+     * This Endpoint should be cacheble to reduce calls.
+     */
+    @Cacheable(value = "programs")
+    @GetMapping("/v2/gymservice/showAllActive")
+    public ResponseEntity<?> listAllActivePrograms() {
+        return new ResponseEntity<>(programService.listAllActivePrograms(), HttpStatus.OK);
+    }
+
+    /* API Version: 2.0
+     * Define a handler method which will get us all programs by its duration.
+     *
+     * This handler method should return any one of the status messages basis on
+     * different situations:
+     * 1. 200(OK) - If all programs with matching duration found.
+     *
+     * This handler method should map to the URL "/api/v2/gymservice/{durationInMonths}" using HTTP GET
+     * method where "durationInMonths" should be replaced by a durationInMonths without {}
+     * This Endpoint should be cacheble to reduce calls.
+     */
+    @GetMapping("/v2/gymservice/{durationInMonths}")
+    public ResponseEntity<?> getProgramByDuration(@PathVariable int durationInMonths) throws ProgramNotFoundException {
+        return new ResponseEntity<>(programService.getProgramByDuration(durationInMonths), HttpStatus.OK);
+    }
+
+    /* API Version: 1.0
+     * Define a handler method which will get us the program by a programCode.
+     *
+     * This handler method should return any one of the status messages basis on
+     * different situations:
+     * 1. 200(OK) - If the program found successfully.
+     * 2. 404(NOT FOUND) - If the news with specified programCode is not found.
+     *
+     *
+     * This handler method should map to the URL "/v1/gymservice/{programCode}" using HTTP GET
+     * method, where "programCode" should be replaced by a programCode without {}
+     */
+//    @Cacheable(value = "programs", key = "#program.programCode")
+    @Cacheable(value = "programs", key = "#p0")
+    @GetMapping("/v1/gymservice/{programCode}")
+    public ResponseEntity<?> getProgramByCode(@PathVariable String programCode) throws ProgramNotFoundException {
+        return new ResponseEntity<>(programService.getProgramByCode(programCode), HttpStatus.OK);
+    }
+
+    /* API Version: 1.0
+     * Define a handler method which will create a new program by reading the Serialized
+     * program object from request body and save the program in database.
+     * Please note that the programCode has to be unique and autogenerated.
+     *
+     * This handler method should return any one of the status messages basis on
+     * different situations:
+     * 1. 201(CREATED - In case of successful creation of the program
+     * 2. 409(CONFLICT) - In case of duplicate programCode
+     *
+     * This handler method should map to the URL "/api/v1/gymservice" using HTTP POST
+     * method".
+     */
+    @CacheEvict(value = "programs",allEntries = true)
+    @PostMapping("/v1/gymservice")
+    public ResponseEntity<?> addProgram(@RequestBody Program program) throws ProgramAlreadyExistsException {
+        return new ResponseEntity<>(programService.addNewProgram(program), HttpStatus.CREATED);
+    }
+
+    /* API Version: 1.0
+	 * Define a handler method which will update a specific program by reading the
+	 * Serialized object from request body and save the updated program in
+	 * program table in database and handle ProgramNotFoundException as well.
+	 *
+	 * This handler method should return any one of the status
+	 * messages basis on different situations:
+	 * 1. 200(OK) - If the program is updated successfully.
+	 * 2. 404(NOT FOUND) - If the program with specified programCode is not found.
+	 *
+	 * This handler method should map to the URL "/api/v1/gymservice" using HTTP PUT
+	 * method.
+	 */
+    @CacheEvict(value = "programs",allEntries = true)
+    @PutMapping("/v1/gymservice")
+    public ResponseEntity<?> updateProgram(@RequestBody Program program) throws ProgramNotFoundException {
+        return new ResponseEntity<>(programService.updateExistingProgram(program), HttpStatus.OK);
+    }
+
+}
