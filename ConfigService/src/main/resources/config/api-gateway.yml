@@ -1,23 +1,14 @@
-server:
-  port: 9000
-spring:
-  application:
-    name: api-gateway
-  zipkin:
-    base-url: http://localhost:9411/
-zuul:
-  routes:
-    userservice:
-      serviceId: user-service
-    gymservice:
-      serviceId: gym-service
-    enquiryservice:
-      serviceId: enquiry-service
-    ticketservice:
-      serviceId: ticket-service
-eureka:
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka
+# this file will contain the configuration for the Zuul API gateway.
+#
+# it should start with port number 9000 and the application name should be defined as 'api-gateway' which is the
+# serviceId with which it will be registered with service registry.
+#
+# Zuul gateway should have the routes defined for the following:
+# 1. UserService(serviceId: user-service)
+# 2. GymService(serviceId: gym-service)
+# 3. EnquiryService(serviceId: enquiry-service)
+# 4. TicketService(serviceId: ticket-service)
+#
+# the Zuul gateway should be registered with Service Registry and should be able to interrogate the service registry
+# for other services registered
+#

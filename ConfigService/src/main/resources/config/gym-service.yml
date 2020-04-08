@@ -1,23 +1,9 @@
-# server should start with port number 8091. mongodb database name and
-# port number should be accepted using environment variable
+# this file will contain the configuration for the GymService Microservice.
+#
+# it should start with port number 8091 and the application name should be defined as 'gym-service' which is the
+# serviceId with which it will be registered with service registry.
+#
+# This microservice should be registered with Service Registry and should be able
+#  to interrogate the service registry for other services registered
+#
 
-server:
-  port: 8091
-spring:
-  application:
-    name: gym-service
-  zipkin:
-    base-url: http://localhost:9411/
-  sleuth:
-    sampler:
-      probability: 100
-  data:
-    mongodb:
-      database: programdb
-      port: 27017
-eureka:
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka

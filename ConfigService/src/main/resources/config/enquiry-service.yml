@@ -1,23 +1,8 @@
-# server should start with port number 8092. mongodb database name and
-# port number should be accepted using environment variable
-
-server:
-  port: 8092
-spring:
-  application:
-    name: enquiry-service
-  zipkin:
-    base-url: http://localhost:9411/
-  sleuth:
-    sampler:
-      probability: 100
-  data:
-    mongodb:
-      database: enquirydb
-      port: 27017
-eureka:
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka
+# this file will contain the configuration for the EnquiryService Microservice.
+#
+# it should start with port number 8092 and the application name should be defined as 'enquiry-service' which is the
+# serviceId with which it will be registered with service registry.
+#
+# This microservice should be registered with Service Registry and should be able
+#  to interrogate the service registry for other services registered
+#
