@@ -9,6 +9,7 @@ Annotate this class with the following annotations:
 3. @EnableCaching - to enable caching in the application
 4. @EnableFeignClient - to mark this application as a feign client
 */
+
 public class EnquiryServiceApplication {
 
     public static void main(String[] args) {

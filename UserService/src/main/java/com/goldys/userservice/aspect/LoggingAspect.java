@@ -1,6 +1,7 @@
 package com.goldys.userservice.aspect;
 
 /* Annotate this class with @Aspect and @Component */
+
 public class LoggingAspect {
 
     /*

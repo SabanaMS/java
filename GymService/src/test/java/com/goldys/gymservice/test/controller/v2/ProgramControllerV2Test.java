@@ -17,9 +17,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class ProgramControllerV2Test {
@@ -61,7 +60,7 @@ public class ProgramControllerV2Test {
     /* when GET request is sent to "/api/v2/gymservice/1", the status returned should be ok and the list of
        programs having duration of 1 month should be returned. */
     @Test
-    public void getByProgramDurationSuccess() throws Exception {
+    public void getProgramByDurationSuccess() throws Exception {
 
         when(programService.getProgramByDuration(1)).thenReturn(programList);
         mockMvc.perform(get("/api/v2/gymservice/1").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())

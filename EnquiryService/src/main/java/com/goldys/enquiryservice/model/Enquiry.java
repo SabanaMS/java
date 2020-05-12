@@ -15,54 +15,44 @@ public class Enquiry {
     private String mobile;
     private String query;
 
-    public Enquiry(String name, String email, String mobile, String query) {
-
-        this.name = name;
-        this.email = email;
-        this.mobile = mobile;
-        this.query = query;
-    }
-
-    public Enquiry() {
-    }
 
     public String getEnquiryCode() {
-        return enquiryCode;
+        return null;
     }
 
     public void setEnquiryCode(String enquiryCode) {
-        this.enquiryCode = enquiryCode;
+
     }
 
     public String getName() {
-        return name;
+        return null;
     }
 
     public void setName(String name) {
-        this.name = name;
+
     }
 
     public String getEmail() {
-        return email;
+        return null;
     }
 
     public void setEmail(String email) {
-        this.email = email;
+
     }
 
     public String getMobile() {
-        return mobile;
+        return null;
     }
 
     public void setMobile(String mobile) {
-        this.mobile = mobile;
+
     }
 
     public String getQuery() {
-        return query;
+        return null;
     }
 
     public void setQuery(String query) {
-        this.query = query;
+
     }
 }

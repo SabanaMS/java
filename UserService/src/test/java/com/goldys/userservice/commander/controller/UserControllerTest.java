@@ -101,7 +101,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void userLoginNotFoundFailure() throws Exception {
+    public void userNotFoundFailure() throws Exception {
 
         when(userService.login(any())).thenThrow(UserNotFoundException.class);
         mockMvc.perform(post("/api/v1/userservice/login").contentType(MediaType.APPLICATION_JSON).content(asJsonString(user)))
@@ -110,7 +110,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void userLoginUnauthorizedFailure() throws Exception {
+    public void userUnauthorizedFailure() throws Exception {
 
         when(userService.login(any())).thenThrow(InvalidCredentialsException.class);
         mockMvc.perform(post("/api/v1/userservice/login").contentType(MediaType.APPLICATION_JSON).content(asJsonString(user)))

@@ -7,7 +7,6 @@ package com.goldys.ticketservice.service;
  * clarifying it's role.
  *
  * */
-
 public class RabbitMQEnquiryListener implements EnquiryListener {
 
     /*
@@ -21,7 +20,6 @@ public class RabbitMQEnquiryListener implements EnquiryListener {
      * it should add a new ticket with the enquiryCode which should be coming from
      * the queue
      */
-
     public void addNewTicket(String enquiryCode) {
 
     }

@@ -10,6 +10,7 @@ package com.goldys.gymservice.controller.v1;
  *
  * Please note that the default path to use this controller should be "/api/v1/gymservice"
  */
+
 public class ProgramControllerV1 {
 
     /*
@@ -32,7 +33,6 @@ public class ProgramControllerV1 {
      * This handler method should map to the URL "/api/v1/gymservice" using HTTP GET
      * method.
      */
-
 
 
 
@@ -81,6 +81,7 @@ public class ProgramControllerV1 {
      * This handler method should map to the URL "/api/v1/gymservice" using HTTP PUT
      * method.
      */
+
 
 
 

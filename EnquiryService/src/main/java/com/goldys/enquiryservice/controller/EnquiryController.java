@@ -10,6 +10,7 @@ package com.goldys.enquiryservice.controller;
  *
  * Please note that the default path to use this controller should be "/api/v1/enquiryservice"
  */
+
 public class EnquiryController {
 
     /*
@@ -34,7 +35,6 @@ public class EnquiryController {
 
 
 
-
     /* API Version: 1.0
      * Define a handler method which will get us the Enquiry by a enquiryCode.
      *
@@ -48,8 +48,6 @@ public class EnquiryController {
      * method, where "enquiryCode" should be replaced by a enquiryCode without {}
      *
      */
-
-
 
 
 

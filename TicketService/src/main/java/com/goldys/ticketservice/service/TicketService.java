@@ -8,6 +8,10 @@ import java.util.List;
 
 public interface TicketService {
 
+    /*
+     * You Should not modify this interface. You have to implement these methods in
+     * corresponding Impl classes
+     */
     List<Ticket> listAllTickets();
 
     List<Ticket> listAllOpenTickets();

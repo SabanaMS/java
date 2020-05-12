@@ -9,7 +9,6 @@ Annotate this class with the following annotations:
 3. @EnableCaching - to enable caching in the application
 4. @EnableFeignClient - to mark this application as a feign client
 */
-
 public class UserServiceApplication {
 
     public static void main(String[] args) {

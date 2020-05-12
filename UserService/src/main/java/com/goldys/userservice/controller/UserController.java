@@ -10,6 +10,7 @@ package com.goldys.userservice.controller;
  *
  * Please note that the default path to use this controller should be "/api/v1/userservice"
  */
+
 public class UserController {
     /*
      * Constructor Autowiring should be implemented for the Service Layer for Programs and
@@ -50,8 +51,6 @@ public class UserController {
      * This handler method should map to the URL "/api/v1/userservice" using HTTP PUT
      * method
      */
-
-
 
 
     /* API Version: 1.0

@@ -4,7 +4,6 @@ import com.goldys.userservice.exception.InvalidCredentialsException;
 import com.goldys.userservice.exception.UserAlreadyExistsException;
 import com.goldys.userservice.exception.UserNotFoundException;
 import com.goldys.userservice.model.User;
-import org.springframework.stereotype.Service;
 
 /*
  * This class is implementing the UserService interface. This class has to be annotated with
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
  * clarifying it's role.
  *
  * */
-@Service
 public class UserServiceImpl implements UserService {
 
     /*
@@ -26,7 +24,7 @@ public class UserServiceImpl implements UserService {
      * Register a new User. Throw UserAlreadyExistsException if the user with specified
      * email already exists.
      */
-    @Override
+
     public User registerUser(User user) throws UserAlreadyExistsException {
         return null;
     }
@@ -35,7 +33,7 @@ public class UserServiceImpl implements UserService {
      * Update an existing User by it's email. Throw UserNotFoundException if the
      * user with specified email does not exist.
      */
-    @Override
+
     public User updateProfile(User user) throws UserNotFoundException {
         return null;
     }
@@ -47,7 +45,6 @@ public class UserServiceImpl implements UserService {
      * stored in DB.
      * Caching implementation should be done.
      */
-
     public User login(User user) throws UserNotFoundException, InvalidCredentialsException {
         return null;
     }
@@ -55,7 +52,7 @@ public class UserServiceImpl implements UserService {
     /* Validate a particular user to check whether he has role "Executive".
      * Retrieve an existing user by his email and role.
      */
-
+    @Override
     public boolean validateUser(String email) {
         return false;
     }

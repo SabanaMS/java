@@ -10,6 +10,7 @@ package com.goldys.ticketservice.controller;
  *
  * Please note that the default path to use this controller should be "/api/v1/ticketservice"
  */
+
 public class TicketController {
 
     /*
@@ -30,8 +31,6 @@ public class TicketController {
      */
 
 
-
-
     /* API Version: 1.0
      * Define a handler method which will get us all open tickets.
      *
@@ -42,7 +41,6 @@ public class TicketController {
      * This handler method should map to the URL "/api/v1/ticketservice/open/" using HTTP GET
      * method.
      */
-
 
 
 
@@ -59,7 +57,6 @@ public class TicketController {
      * method, where "ticketId" should be replaced by a ticketId without {}
      *
      */
-
 
 
 

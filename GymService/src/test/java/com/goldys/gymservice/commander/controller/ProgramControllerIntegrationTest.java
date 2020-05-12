@@ -61,7 +61,7 @@ public class ProgramControllerIntegrationTest {
 
     @Order(4)
     @Test
-    public void getByProgramCodeSuccess() throws Exception {
+    public void getProgramByCodeSuccess() throws Exception {
 
 
         mockMvc.perform(get("/api/v1/gymservice/p001")
@@ -72,7 +72,7 @@ public class ProgramControllerIntegrationTest {
 
     @Order(5)
     @Test
-    public void getByProgramCodeFailure() throws Exception {
+    public void getProgramByCodeFailure() throws Exception {
 
 
         mockMvc.perform(get("/api/v1/gymservice/p002")
@@ -140,7 +140,7 @@ public class ProgramControllerIntegrationTest {
 
     @Order(9)
     @Test
-    public void getByProgramDurationSuccess() throws Exception {
+    public void getProgramByDurationSuccess() throws Exception {
 
         mockMvc.perform(get("/api/v2/gymservice/1").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print());

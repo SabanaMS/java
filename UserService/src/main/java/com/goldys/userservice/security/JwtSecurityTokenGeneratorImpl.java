@@ -19,6 +19,6 @@ public class JwtSecurityTokenGeneratorImpl implements SecurityTokenGenerator {
     @Override
     public Map<String, String> generateToken(User user) {
 
-        return null;
+     return null;
     }
 }

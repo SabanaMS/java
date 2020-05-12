@@ -1,7 +1,6 @@
 package com.goldys.apigatewayservice.config;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.web.filter.CorsFilter;
 
 /*
@@ -20,19 +19,17 @@ public class BeanConfig {
      *      - '/ticketservice/api/v1/ticketservice/*'
      */
 
+
     public FilterRegistrationBean jwtFilter() {
 
         return null;
 
     }
 
-
     /*
      *  Bean to be created for CorsFilter so that requests from any origin
      */
-    @Bean
     public CorsFilter corsFilter() {
-
         return null;
 
     }

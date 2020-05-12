@@ -27,7 +27,6 @@ public class EnquiryServiceImpl implements EnquiryService {
      */
 
     public Enquiry addNewEnquiry(Enquiry enquiry) {
-
         return null;
     }
 
@@ -47,7 +46,6 @@ public class EnquiryServiceImpl implements EnquiryService {
      * enquiry with specified enquiryCode does not exist.
      * Caching should be implemented to reduce method calls.
      */
-
     public Enquiry getEnquiryByCode(String enquiryCode) throws EnquiryNotFoundException {
         return null;
     }

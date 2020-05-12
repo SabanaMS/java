@@ -21,10 +21,12 @@ public class TicketServiceImpl implements TicketService {
      */
 
 
+
     /*
      * Retrieve all existing ticket details.
      * Caching should be implemented to reduce method calls.
      */
+
     public List<Ticket> listAllTickets() {
         return null;
     }
@@ -33,7 +35,6 @@ public class TicketServiceImpl implements TicketService {
      * Retrieve all existing ticket details which are in open status.
      * Caching should be implemented to reduce method calls.
      */
-
     public List<Ticket> listAllOpenTickets() {
         return null;
     }
@@ -43,7 +44,6 @@ public class TicketServiceImpl implements TicketService {
      * ticket with specified ticketId does not exist.
      * Caching should be implemented to reduce method calls.
      */
-
     public Ticket getTicketByTicketId(String ticketId) throws TicketNotFoundException {
         return null;
     }
@@ -62,6 +62,7 @@ public class TicketServiceImpl implements TicketService {
      * @HystrixCommand annotation should be used here with a fallback method which
      * will be called if the API call fails.
      */
+
     public Ticket updateTicket(Ticket ticket) throws TicketNotFoundException, UserUnauthorizedException {
         return null;
     }
