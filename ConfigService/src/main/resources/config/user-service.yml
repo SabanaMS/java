@@ -1,8 +1,5 @@
-# this file will contain the configuration for the UserService Microservice.
+# server should start with port number 8090. MySQL database config parameters
+# should be accepted using environment variable
+# It should connect to the Zipkins container running using the URL "http://localhost:9411/"
 #
-# it should start with port number 8090 and the application name should be defined as 'user-service' which is the
-# serviceId with which it will be registered with service registry.
-#
-# This microservice should be registered with Service Registry and should be able
-#  to interrogate the service registry for other services registered
-#
+# This service should register with Eureka Service Registry running in "http://localhost:8761/"

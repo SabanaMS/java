@@ -1,2 +1,2 @@
-# config server should get started with port 8888 with the profile "native" which is
-# default profile
+# config server should start with port number 8888. The default profile will
+# be "native"

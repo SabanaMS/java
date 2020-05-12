@@ -4,9 +4,16 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.io.Serializable;
 
+/* This class should be annotated with @Entity annotation */
 @Entity
 public class User implements Serializable {
-
+    /*
+     * This class should have three fields of type String
+     * (email,password,role)
+     * This class should also contain the getters and setters for the
+     * fields along with the no-arg , parameterized	constructor and toString method.
+     *
+     */
     @Id
     private String email;
     private String password;

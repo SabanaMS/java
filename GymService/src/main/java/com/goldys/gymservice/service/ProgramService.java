@@ -25,4 +25,6 @@ public interface ProgramService {
 
     List<Program> listAllActivePrograms();
 
+    void deleteProgram(String programCode) throws ProgramNotFoundException;
+
 }

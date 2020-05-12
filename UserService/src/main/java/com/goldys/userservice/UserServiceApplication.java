@@ -1,26 +1,19 @@
 package com.goldys.userservice;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cache.annotation.EnableCaching;
 
-/*Add the following annotations to the class which is the entry point of this application:
-
-1. @EnableEurekaClient - Once a Eureka service registry is started,
-	this application will act as a client that both registers itself with the
-	registry and uses the Spring Cloud EurekaClient to interrogate the registry
-	for its own host and port. The @EnableEurekaClient activates the Netflix Eureka EurekaClient implementation.
-2. @EnableFeignClients - With this annotation, we enable component scanning for interfaces that declare
-    they are Feign clients.
-
+/*
+Annotate this class with the following annotations:
+1. @SpringBootApplication
+2. @EnableEurekaClient - to mark this application as a client of a Eureka Service Registry
+3. @EnableCaching - to enable caching in the application
+4. @EnableFeignClient - to mark this application as a feign client
 */
 
-@SpringBootApplication
-@EnableCaching
 public class UserServiceApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(UserServiceApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(UserServiceApplication.class, args);
+    }
 
 }

@@ -40,7 +40,7 @@ public class EnquiryControllerTest {
         MockitoAnnotations.initMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(enquiryController).build();
         enquiryList = new ArrayList<>();
-        enquiry = new Enquiry("Rajesh","rajesh@abc.com","9810098100","New Subscription");
+        enquiry = new Enquiry("Rajesh", "rajesh@abc.com", "9810098100", "New Subscription");
         enquiry.setEnquiryCode("1");
         enquiryList.add(enquiry);
 
@@ -63,7 +63,7 @@ public class EnquiryControllerTest {
     }
 
     @Test
-    public void getByRecipeNameFailure() throws Exception {
+    public void getEnquiryByCodeFailure() throws Exception {
 
         when(enquiryService.getEnquiryByCode("2")).thenReturn(null);
         mockMvc.perform(get("/api/v1/enquiryservice/admin/2").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
@@ -79,7 +79,6 @@ public class EnquiryControllerTest {
                 .andExpect(status().isCreated()).andDo(MockMvcResultHandlers.print());
 
     }
-
 
 
     public static String asJsonString(final Object obj) {

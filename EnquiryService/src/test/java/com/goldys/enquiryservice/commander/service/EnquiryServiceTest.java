@@ -41,7 +41,7 @@ public class EnquiryServiceTest {
 
         MockitoAnnotations.initMocks(this);
         enquiryList = new ArrayList<>();
-        enquiry = new Enquiry("John Doe","john@abc.com","9810098100","New Subscription");
+        enquiry = new Enquiry("John Doe", "john@abc.com", "9810098100", "New Subscription");
         enquiry.setEnquiryCode("1");
         enquiryList.add(enquiry);
 
@@ -64,6 +64,7 @@ public class EnquiryServiceTest {
 
     }
 
+
     @Test
     @Rollback(true)
     public void testGetAllEnquiriesSuccess() {
@@ -78,7 +79,7 @@ public class EnquiryServiceTest {
 
     @Test
     @Rollback(true)
-    public void testGetEnquirySuccess() throws EnquiryNotFoundException {
+    public void testGetEnquiryByCodeSuccess() throws EnquiryNotFoundException {
 
         when(enquiryRepository.findById(any())).thenReturn(Optional.of(enquiry));
 
@@ -90,7 +91,7 @@ public class EnquiryServiceTest {
 
     @Test
     @Rollback(true)
-    public void testGetEnquiryFailure() throws EnquiryNotFoundException {
+    public void testGetEnquiryByCodeFailure() throws EnquiryNotFoundException {
 
         when(enquiryRepository.findById(any())).thenReturn(Optional.empty());
 

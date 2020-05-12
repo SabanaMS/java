@@ -16,6 +16,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.HashMap;
@@ -23,7 +24,8 @@ import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class UserControllerTest {
@@ -35,21 +37,22 @@ public class UserControllerTest {
     UserService userService;
 
     @Mock
-    private SecurityTokenGenerator securityTokenGenerator;
+    SecurityTokenGenerator securityTokenGenerator;
+
     @InjectMocks
     UserController userController;
 
-    private Map<String, String> map;
+    Map<String, String> map;
 
     @BeforeEach
     public void setUp() {
 
-        map = new HashMap<>();
-        map.put("token", "abc");
-        map.put("message","User authentication successful");
         MockitoAnnotations.initMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
-        user = new User("john@abc.com","password","admin");
+        user = new User("john@abc.com", "password", "admin");
+        map = new HashMap<>();
+        map.put("token", "abc");
+        map.put("message", "User authentication successful");
     }
 
     @Test
@@ -80,7 +83,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void updateFoodFailure() throws Exception {
+    public void updateProfileFailure() throws Exception {
 
         when(userService.updateProfile(any())).thenThrow(UserNotFoundException.class);
         mockMvc.perform(put("/api/v1/userservice").contentType(MediaType.APPLICATION_JSON).content(asJsonString(user)))
@@ -91,10 +94,10 @@ public class UserControllerTest {
     @Test
     public void userLoginSuccess() throws Exception {
 
-        when(userService.login(any())).thenReturn(true);
-        when(securityTokenGenerator.generateToken(user)).thenReturn(map);
+        when(userService.login(any())).thenReturn(user);
         mockMvc.perform(post("/api/v1/userservice/login").contentType(MediaType.APPLICATION_JSON).content(asJsonString(user)))
                 .andExpect(status().isOk()).andDo(MockMvcResultHandlers.print());
+
     }
 
     @Test
@@ -116,19 +119,16 @@ public class UserControllerTest {
     }
 
     @Test
-    public void validateUserSuccess() throws Exception {
+    public void tokenGenerationSuccess() throws Exception {
 
-        when(userService.validate(any())).thenReturn(true);
-        mockMvc.perform(get("/api/v1/userservice/abc").contentType(MediaType.APPLICATION_JSON).content(asJsonString(user)))
-                .andExpect(status().isOk()).andDo(MockMvcResultHandlers.print());
-    }
+        when(userService.login(any())).thenReturn(user);
+        when(securityTokenGenerator.generateToken(any())).thenReturn(map);
+        mockMvc.perform(post("/api/v1/userservice/login").contentType(MediaType.APPLICATION_JSON).content(asJsonString(user)))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.token").value("abc"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("User authentication successful"))
+                .andDo(MockMvcResultHandlers.print());
 
-    @Test
-    public void validateUserFailure() throws Exception {
-
-        when(userService.validate(any())).thenReturn(false);
-        mockMvc.perform(get("/api/v1/userservice/xyz").contentType(MediaType.APPLICATION_JSON).content(asJsonString(user)))
-                .andExpect(status().isOk()).andDo(MockMvcResultHandlers.print());
     }
 
 

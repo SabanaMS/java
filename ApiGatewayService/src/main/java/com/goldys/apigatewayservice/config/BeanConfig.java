@@ -1,31 +1,40 @@
 package com.goldys.apigatewayservice.config;
 
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.filter.CorsFilter;
 
 /*
  * Annotate the class with @Configuration
  */
-@Configuration
 public class BeanConfig {
 
     /*
      *  Create a bean for FilterRegistrationBean.
      *  1. Register the JwtFilter
-     *  2. add URL pattern for the following patterns so that any request for
-     *     that URL pattern will be intercepted by the filter.
-     *     - Gym Service("/api/v1/gymservice/*")
-     *     - Gym Service("/api/v2/gymservice/*")
-     *     - Enquiry Service("/api/v1/enquiryservice/admin/*")
-     *     - Ticket Service(/api/v1/ticketservice/*)
-     *
-     *  Hint: As the Zuul API Gateway will be interrogating the Eureka
-     *  Service discovery, hence the intercepting URL might need to be prefixed with
-     *  some value.
+     *  2. add URL pattern for following so that any request for
+     *     that URL pattern will be intercepted by the filter:
+     *      - '/gymservice/api/v1/gymservice/*'
+     *      - '/gymservice/api/v2/gymservice/*'
+     *      - '/enquiryservice/api/v1/enquiryservice/admin/*'
+     *      - '/ticketservice/api/v1/ticketservice/*'
      */
 
+    public FilterRegistrationBean jwtFilter() {
 
-    /* Add CORS Filter to allow request from all external clients */
+        return null;
+
+    }
 
 
+    /*
+     *  Bean to be created for CorsFilter so that requests from any origin
+     */
+    @Bean
+    public CorsFilter corsFilter() {
+
+        return null;
+
+    }
 
 }

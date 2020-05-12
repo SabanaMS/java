@@ -1,7 +1,7 @@
-package com.goldys.gymservice.commander.controller;
+package com.goldys.gymservice.test.controller.v1;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.goldys.gymservice.controller.ProgramController;
+import com.goldys.gymservice.controller.v1.ProgramControllerV1;
 import com.goldys.gymservice.exception.ProgramAlreadyExistsException;
 import com.goldys.gymservice.exception.ProgramNotFoundException;
 import com.goldys.gymservice.model.Program;
@@ -24,29 +24,35 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class ProgramControllerTest {
+public class ProgramControllerV1Test {
 
     private MockMvc mockMvc;
     private Program program;
     private List<Program> programList;
 
+    /* ProgramService should be mocked and be injected to ProgramControllerV1 */
+
     @Mock
     ProgramService programService;
     @InjectMocks
-    ProgramController programController;
+    ProgramControllerV1 programControllerV1;
 
+    /*  Create an object of the Program class and and list of program objects which can be
+        used for mocking various service methods. */
     @BeforeEach
     public void setUp() {
 
         MockitoAnnotations.initMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(programController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(programControllerV1).build();
         programList = new ArrayList<>();
-        program = new Program("All Access(1 Month)","Access to all equipments with general trainers", 1, 1500, 0.1f, true);
+        program = new Program("All Access(1 Month)", "Access to all equipments with general trainers", 1, 1500, 0.1f, true);
         program.setProgramCode("1");
         programList.add(program);
 
     }
 
+    /* when GET request is sent to "/api/v1/gymservice", the status returned should be ok and the list of
+      programs should be returned. */
     @Test
     public void getAllProgramsSuccess() throws Exception {
 
@@ -55,38 +61,30 @@ public class ProgramControllerTest {
                 .andDo(MockMvcResultHandlers.print());
     }
 
-    @Test
-    public void getAllActiveProgramsSuccess() throws Exception {
 
-        when(programService.listAllActivePrograms()).thenReturn(programList);
-        mockMvc.perform(get("/api/v1/gymservice/showAllActive").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
-                .andDo(MockMvcResultHandlers.print());
-    }
-
+    /* when GET request is sent to "/api/v1/gymservice/1", the status returned should be ok and the program
+     with programCode 1 should be returned. */
     @Test
-    public void getByProgramNameSuccess() throws Exception {
+    public void getProgramByCodeSuccess() throws Exception {
 
         when(programService.getProgramByCode("1")).thenReturn(program);
         mockMvc.perform(get("/api/v1/gymservice/1").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print());
     }
 
+    /* when GET request is sent to "/api/v1/gymservice/2", the status returned should
+    be ok and no result should be returned. */
     @Test
-    public void getByRecipeNameFailure() throws Exception {
+    public void getProgramByCodeFailure() throws Exception {
 
         when(programService.getProgramByCode("2")).thenReturn(null);
         mockMvc.perform(get("/api/v1/gymservice/2").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print());
     }
 
-    @Test
-    public void getByProgramDurationSuccess() throws Exception {
 
-        when(programService.getProgramByDuration(1)).thenReturn(programList);
-        mockMvc.perform(get("/api/v2/gymservice/1").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
-                .andDo(MockMvcResultHandlers.print());
-    }
-
+    /* when POST request is sent to "/api/v1/gymservice/" with Program JSON, the status returned should be "created" and
+        the newly created program should be returned */
     @Test
     public void addProgramSuccess() throws Exception {
 
@@ -96,6 +94,8 @@ public class ProgramControllerTest {
 
     }
 
+    /* when POST request is sent to "/api/v1/gymservice/" with Program JSON having duplicate programCode, the status
+    returned should be "conflict" and ProgramAlreadyExistsException should be thrown */
     @Test
     public void addProgramFailure() throws Exception {
 
@@ -105,6 +105,8 @@ public class ProgramControllerTest {
 
     }
 
+    /* when PUT request is sent to "/api/v1/gymservice/" with Program JSON, the status returned should be "ok" and
+  the updated program should be returned */
     @Test
     public void updateProgramSuccess() throws Exception {
 
@@ -114,16 +116,16 @@ public class ProgramControllerTest {
 
     }
 
-
+    /* when PUT request is sent to "/api/v1/gymservice/" with Program JSON, the status returned should be "not found" and
+   ProgramNotFoundException should be thrown */
     @Test
     public void updateProgramFailure() throws Exception {
 
         when(programService.updateExistingProgram(any())).thenThrow(ProgramNotFoundException.class);
-        mockMvc.perform(put("/api/v1/gymservice").contentType(MediaType.APPLICATION_JSON).content(asJsonString(program  )))
+        mockMvc.perform(put("/api/v1/gymservice").contentType(MediaType.APPLICATION_JSON).content(asJsonString(program)))
                 .andExpect(status().isNotFound()).andDo(MockMvcResultHandlers.print());
 
     }
-
 
 
     public static String asJsonString(final Object obj) {

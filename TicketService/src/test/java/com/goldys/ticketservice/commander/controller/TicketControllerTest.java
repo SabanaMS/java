@@ -41,7 +41,7 @@ public class TicketControllerTest {
         MockitoAnnotations.initMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(ticketController).build();
         ticketList = new ArrayList<>();
-        ticket = new Ticket("abc",true,null,null);
+        ticket = new Ticket("abc", true, null, null);
         ticket.setTicketId("1");
         ticketList.add(ticket);
 
@@ -80,7 +80,6 @@ public class TicketControllerTest {
     }
 
 
-
     @Test
     public void updateTicketSuccess() throws Exception {
 
@@ -92,14 +91,13 @@ public class TicketControllerTest {
 
 
     @Test
-    public void updateProgramFailure() throws Exception {
+    public void updateTicketFailure() throws Exception {
 
         when(ticketService.updateTicket(any())).thenThrow(TicketNotFoundException.class);
         mockMvc.perform(put("/api/v1/ticketservice/").contentType(MediaType.APPLICATION_JSON).content(asJsonString(ticket)))
                 .andExpect(status().isNotFound()).andDo(MockMvcResultHandlers.print());
 
     }
-
 
 
     public static String asJsonString(final Object obj) {

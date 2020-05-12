@@ -1,14 +1,9 @@
-# this file will contain the configuration for the Zuul API gateway.
+# API gateway should start in port 9000.
+# It should connect to the Zipkins container running using the URL "http://localhost:9411/"
+# The API Gateway should have the following routes defined:
+# - userservice (Eureka Service Registry serviceId: user-service)
+# - gymservice (Eureka Service Registry serviceId: gym-service)
+# - enquiryservice (Eureka Service Registry serviceId: enquiry-service)
+# - ticketservice (Eureka Service Registry serviceId: ticket-service)
 #
-# it should start with port number 9000 and the application name should be defined as 'api-gateway' which is the
-# serviceId with which it will be registered with service registry.
-#
-# Zuul gateway should have the routes defined for the following:
-# 1. UserService(serviceId: user-service)
-# 2. GymService(serviceId: gym-service)
-# 3. EnquiryService(serviceId: enquiry-service)
-# 4. TicketService(serviceId: ticket-service)
-#
-# the Zuul gateway should be registered with Service Registry and should be able to interrogate the service registry
-# for other services registered
-#
+# This service should register with Eureka Service Registry running in "http://localhost:8761/"

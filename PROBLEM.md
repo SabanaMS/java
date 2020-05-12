@@ -1,19 +1,19 @@
-# Goldies Gym - Part 2 
+# Goldy's Gym - Part 2 
 
 ## Problem Statement
 
-Goldies Gym has started business in 2018 as a specialized fitness center. It started operations from a 200 sqm floor area in the suburbs of Boston. Because of its uniquely designed fitness regimes, it was able to quickly raise memberships and currently operates with nine centers and aggressively planning to open multiple centers across the country.
-Goldies Gym wants to digitize its operation in a phased manner. They have already has an application which has the following features: 
+Goldy's Gym has started business in 2018 as a specialized fitness center. It started operations from a 200 sqm floor area in the suburbs of Boston. Because of its uniquely designed fitness regimes, it was able to quickly raise memberships and currently operates with nine centers and aggressively planning to open multiple centers across the country.
+Goldy's Gym wants to digitize its operation in a phased manner. They have already has an application which has the following features: 
 
 - The system allows integration with other fitness apps and portals as well as with their own Single Page Application (SPA) as it is based on the standard REST 2.0 API. 
 
 - As the system is predicted to be highly evolvable based on their business requirements. Therefore, they have built the system on the Microservices architecture.
 
-- The Gym Admin team at Goldies Gym can add the fitness programs they offer, remove any old program details from the portal or even update the program details through the system.
+- The Gym Admin team at Goldy's Gym can add the fitness programs they offer, remove any old program details from the portal or even update the program details through the system.
 
-- Third Party fitness portals, with whom Goldies gym has tied up, are able to see the list of fitness programs available, select the details of a particular program and share their interest for it so that the marketing team can get in touch with them to resolve their queries and proceed with the payment.
+- Third Party fitness portals, with whom Goldy's gym has tied up, are able to see the list of fitness programs available, select the details of a particular program and share their interest for it so that the marketing team can get in touch with them to resolve their queries and proceed with the payment.
 
-- Users who visits Goldies Gym Web application, are able to register themselves and login to the application, find the current offerings, view the details of it, and finally share their interest for the same.  
+- Users who visits Goldy's Gym Web application, are able to register themselves and login to the application, find the current offerings, view the details of it, and finally share their interest for the same.  
 
 - The Marketing team are able to see the list of users who have shared their interest for the fitness programs, call them back and close the ticket with their remarks.
 
@@ -27,11 +27,11 @@ Goldies Gym wants to digitize its operation in a phased manner. They have alread
 
 - Considering that the API will be integrating with multiple Third Party fitness apps, it is important to ensure compatibility and hence, at least two versions of the API needs to be created(for listing and checking details only), one with minimal information and fields(ideal for mobile apps) and the other with more detailed information,which has been implemented for Gym offerings.
 
-The problem to solve for Goldies Gym is make the application more robust, manageable and secure and reducing the interdependencies among the microservices.
+The problem to solve for Goldy's Gym is make the application more robust, manageable and secure and reducing the interdependencies among the microservices.
 
 
 ## Proposed Solution
-In this phase, Goldies Gym needs a solution for their marketing campaign. 
+In this phase, Goldy's Gym needs a solution for their marketing campaign. 
 The solution should help to reach out to users over the web and gather enquiry to its offered programs while ensuring security and high availability. 
 
 
@@ -69,7 +69,7 @@ The application needs a distributed tracing system. It helps gather timing data 
 - **GymService**: Responsible for storing, retrieving, and deleting fitness programs as well as see the details of the same. (Base code already shared)
 - **EnquiryService**: Responsible for storing details of customers who have shown interest.
 
-- **TicketService**: Responsible for generating ticket for each enquiry for the marketing team to act, add their remarks on it, and close the tickets.
+- **TicketService**: Responsible for generating ticket for each enquiry for the marketing team(Customer Care Executives) to act, add their remarks on it, and close the tickets.
 
 - **ConfigService**: Responsible for working as a centralized configuration server.
 

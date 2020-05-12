@@ -15,8 +15,9 @@ public interface UserService {
 
     User updateProfile(User user) throws UserNotFoundException;
 
-    boolean login(User user) throws UserNotFoundException, InvalidCredentialsException;
+    User login(User user) throws UserNotFoundException, InvalidCredentialsException;
 
-    boolean validate(String email);
+    boolean validateUser(String email);
+
 
 }

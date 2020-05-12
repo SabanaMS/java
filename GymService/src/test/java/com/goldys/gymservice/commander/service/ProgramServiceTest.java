@@ -1,9 +1,10 @@
-package com.goldys.gymservice.service;
+package com.goldys.gymservice.commander.service;
 
 import com.goldys.gymservice.exception.ProgramAlreadyExistsException;
 import com.goldys.gymservice.exception.ProgramNotFoundException;
 import com.goldys.gymservice.model.Program;
 import com.goldys.gymservice.repository.ProgramRepository;
+import com.goldys.gymservice.service.ProgramServiceImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,7 +39,7 @@ public class ProgramServiceTest {
 
         MockitoAnnotations.initMocks(this);
         programList = new ArrayList<>();
-        program = new Program("All Access(1 Month)","Access to all equipments with general trainers", 1, 1500, 0.1f, true);
+        program = new Program("All Access(1 Month)", "Access to all equipments with general trainers", 1, 1500, 0.1f, true);
         program.setProgramCode("1");
         programList.add(program);
 
@@ -69,13 +70,12 @@ public class ProgramServiceTest {
 
         when(programRepository.findById(any())).thenReturn(Optional.of(program));
 
-        assertThrows(ProgramAlreadyExistsException.class,() -> programService.addNewProgram(program));
+        assertThrows(ProgramAlreadyExistsException.class, () -> programService.addNewProgram(program));
 
         verify(programRepository, times(1)).findById(any());
         verify(programRepository, times(0)).save(any());
 
     }
-
 
 
     @Test
@@ -94,7 +94,7 @@ public class ProgramServiceTest {
 
     @Test
     @Rollback(true)
-    public void testUpdateProfileFailure() throws ProgramNotFoundException {
+    public void testUpdateProgramFailure() throws ProgramNotFoundException {
 
         when(programRepository.findById(any())).thenReturn(Optional.ofNullable(null));
 
@@ -121,11 +121,11 @@ public class ProgramServiceTest {
     @Rollback(true)
     public void testGetAllActiveProgramsSuccess() {
 
-        when(programRepository.findByIsActive(any())).thenReturn(programList);
+        when(programRepository.findByIsActiveTrue()).thenReturn(programList);
 
         assertEquals(programList, programService.listAllActivePrograms());
 
-        verify(programRepository, times(1)).findByIsActive(any());
+        verify(programRepository, times(1)).findByIsActiveTrue();
 
     }
 
@@ -162,6 +162,31 @@ public class ProgramServiceTest {
         assertThrows(ProgramNotFoundException.class, () -> programService.getProgramByCode(program.getProgramCode()));
 
         verify(programRepository, times(1)).findById(any());
+
+    }
+
+    @Test
+    @Rollback(true)
+    public void testDeleteProgramSuccess() throws ProgramNotFoundException {
+
+        when(programRepository.findById(any())).thenReturn(Optional.of(program));
+
+        programService.deleteProgram(program.getProgramCode());
+
+        verify(programRepository, times(1)).findById(any());
+        verify(programRepository, times(1)).deleteById(any());
+
+    }
+
+    @Test
+    @Rollback(true)
+    public void testDeleteProgramFailure() throws ProgramNotFoundException {
+
+        when(programRepository.findById(any())).thenReturn(Optional.empty());
+        assertThrows(ProgramNotFoundException.class, () -> programService.deleteProgram(program.getProgramCode()));
+
+        verify(programRepository, times(1)).findById(any());
+        verify(programRepository, times(0)).deleteById(any());
 
     }
 

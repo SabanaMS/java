@@ -19,7 +19,6 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 public class UserServiceTest {
@@ -37,7 +36,7 @@ public class UserServiceTest {
 
         MockitoAnnotations.initMocks(this);
 
-        user = new User("john@abc.com","password","admin");
+        user = new User("john@abc.com", "password", "admin");
     }
 
     @AfterEach
@@ -65,13 +64,12 @@ public class UserServiceTest {
 
         when(userRepository.findById(any())).thenReturn(Optional.of(user));
 
-        assertThrows(UserAlreadyExistsException.class,() -> userService.registerUser(user));
+        assertThrows(UserAlreadyExistsException.class, () -> userService.registerUser(user));
 
         verify(userRepository, times(1)).findById(any());
         verify(userRepository, times(0)).save(any());
 
     }
-
 
 
     @Test
@@ -106,46 +104,38 @@ public class UserServiceTest {
     public void testUserLoginSuccess() throws UserNotFoundException, InvalidCredentialsException {
 
         when(userRepository.findById(any())).thenReturn(Optional.of(user));
-        when(userRepository.findByEmailAndPassword(anyString(),anyString())).thenReturn(user);
+        when(userRepository.findByEmailAndPassword(anyString(), anyString())).thenReturn(user);
 
-        assertEquals(true, userService.login(user));
+        assertEquals(user, userService.login(user));
 
         verify(userRepository, times(1)).findById(any());
-        verify(userRepository, times(1)).findByEmailAndPassword(anyString(),anyString());
+        verify(userRepository, times(1)).findByEmailAndPassword(anyString(), anyString());
 
     }
 
     @Test
     @Rollback(true)
-    public void testUserLoginNotFound() throws UserNotFoundException {
+    public void testUserNotFound() throws UserNotFoundException {
 
         when(userRepository.findById(any())).thenReturn(Optional.empty());
 
-        assertThrows(UserNotFoundException.class,() -> userService.login(user));
+        assertThrows(UserNotFoundException.class, () -> userService.login(user));
 
         verify(userRepository, times(1)).findById(any());
-        verify(userRepository, times(0)).findByEmailAndPassword(anyString(),anyString());
+        verify(userRepository, times(0)).findByEmailAndPassword(anyString(), anyString());
 
     }
 
     @Test
     @Rollback(true)
-    public void testUserLoginUnauthorized() throws InvalidCredentialsException {
+    public void testUserUnauthorized() throws InvalidCredentialsException {
 
         when(userRepository.findById(any())).thenReturn(Optional.of(user));
 
-        assertThrows(InvalidCredentialsException.class,() -> userService.login(user));
+        assertThrows(InvalidCredentialsException.class, () -> userService.login(user));
 
         verify(userRepository, times(1)).findById(any());
-        verify(userRepository, times(1)).findByEmailAndPassword(anyString(),anyString());
+        verify(userRepository, times(1)).findByEmailAndPassword(anyString(), anyString());
 
     }
-
-           /*
-            * Write positive and negative test cases for the method validate
-            * to test whether it is working as per the specification.
-            *
-            */
-
 }
-

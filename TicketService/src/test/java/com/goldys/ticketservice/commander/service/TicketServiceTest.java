@@ -46,7 +46,7 @@ public class TicketServiceTest {
 
         MockitoAnnotations.initMocks(this);
         ticketList = new ArrayList<>();
-        ticket = new Ticket("abc",true,null,null);
+        ticket = new Ticket("abc", true, null, null);
         ticket.setTicketId("1");
         ticketList.add(ticket);
 

@@ -24,6 +24,7 @@ import static org.mockito.Mockito.*;
 
 public class ProgramServiceTest {
 
+    /*    Mocking should be implemented using Mockito */
     @Mock
     private ProgramRepository programRepository;
 
@@ -39,7 +40,7 @@ public class ProgramServiceTest {
 
         MockitoAnnotations.initMocks(this);
         programList = new ArrayList<>();
-        program = new Program("All Access(1 Month)","Access to all equipments with general trainers", 1, 1500, 0.1f, true);
+        program = new Program("All Access(1 Month)", "Access to all equipments with general trainers", 1, 1500, 0.1f, true);
         program.setProgramCode("1");
         programList.add(program);
 
@@ -50,6 +51,11 @@ public class ProgramServiceTest {
         program = null;
     }
 
+    /*  Test Case:
+            Given program with specific programCode does not exist
+            when addNewProgram() called
+            then it should a new program
+    */
     @Test
     @Rollback(true)
     public void testAddNewProgramSuccess() throws ProgramAlreadyExistsException {
@@ -64,13 +70,18 @@ public class ProgramServiceTest {
 
     }
 
+    /*  Test Case:
+        Given program with specific programCode already exist
+        when addNewProgram() called
+        then it should throw ProgramAlreadyExistsException
+    */
     @Test
     @Rollback(true)
     public void testAddNewProgramFailure() throws ProgramAlreadyExistsException {
 
         when(programRepository.findById(any())).thenReturn(Optional.of(program));
 
-        assertThrows(ProgramAlreadyExistsException.class,() -> programService.addNewProgram(program));
+        assertThrows(ProgramAlreadyExistsException.class, () -> programService.addNewProgram(program));
 
         verify(programRepository, times(1)).findById(any());
         verify(programRepository, times(0)).save(any());
@@ -78,7 +89,11 @@ public class ProgramServiceTest {
     }
 
 
-
+    /*  Test Case:
+        Given program with specific programCode already exist
+        when updateExistingProgram() called
+        then it should update program object
+    */
     @Test
     @Rollback(true)
     public void testUpdateProgramSuccess() throws ProgramNotFoundException {
@@ -93,9 +108,14 @@ public class ProgramServiceTest {
 
     }
 
+    /*  Test Case:
+        Given program with specific programCode does not exist
+        when updateExistingProgram() called
+        then it should throw ProgramNotFoundException
+    */
     @Test
     @Rollback(true)
-    public void testUpdateProfileFailure() throws ProgramNotFoundException {
+    public void testUpdateProgramFailure() throws ProgramNotFoundException {
 
         when(programRepository.findById(any())).thenReturn(Optional.ofNullable(null));
 
@@ -106,6 +126,11 @@ public class ProgramServiceTest {
 
     }
 
+    /*  Test Case:
+        Given non empty list of programs
+        when listAllPrograms() called
+        then it should return list of programs
+    */
     @Test
     @Rollback(true)
     public void testGetAllProgramsSuccess() {
@@ -118,18 +143,28 @@ public class ProgramServiceTest {
 
     }
 
+    /*  Test Case:
+        Given non empty list of active programs
+        when listAllActivePrograms() called
+        then it should return list of active programs
+    */
     @Test
     @Rollback(true)
     public void testGetAllActiveProgramsSuccess() {
 
-        when(programRepository.findByIsActive(any())).thenReturn(programList);
+        when(programRepository.findByIsActiveTrue()).thenReturn(programList);
 
         assertEquals(programList, programService.listAllActivePrograms());
 
-        verify(programRepository, times(1)).findByIsActive(any());
+        verify(programRepository, times(1)).findByIsActiveTrue();
 
     }
 
+    /*  Test Case:
+        Given non empty list of programs of a specific duration
+        when getProgramByDuration() called
+        then it should return list of programs with matching duration
+    */
     @Test
     @Rollback(true)
     public void testGetAllProgramsByDurationSuccess() {
@@ -142,6 +177,11 @@ public class ProgramServiceTest {
 
     }
 
+    /*  Test Case:
+        Given program with specific programCode exists
+        when getProgramByCode() called
+        then it should return program object
+    */
     @Test
     @Rollback(true)
     public void testGetProgramSuccess() throws ProgramNotFoundException {
@@ -154,6 +194,11 @@ public class ProgramServiceTest {
 
     }
 
+    /*  Test Case:
+        Given program with specific programCode does not exist
+        when getProgramByCode() called
+        then it should throw ProgramNotFoundException
+    */
     @Test
     @Rollback(true)
     public void testGetProgramFailure() throws ProgramNotFoundException {

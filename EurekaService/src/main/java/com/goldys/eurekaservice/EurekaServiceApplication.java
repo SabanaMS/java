@@ -1,20 +1,16 @@
 package com.goldys.eurekaservice;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-
-/*Add the following annotations to the class which is the entry point of this application:
-
-1. @EnableEurekaServer - This annotation defines that this application will act as
-	the Netflix Eureka Service Registry
-
+/*
+Annotate this class with the following annotations:
+1. @SpringBootApplication
+2. @EnableEurekaServer - to mark this application as the Eureka Service Registry Server
 */
-@SpringBootApplication
 public class EurekaServiceApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(EurekaServiceApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(EurekaServiceApplication.class, args);
+    }
 
 }

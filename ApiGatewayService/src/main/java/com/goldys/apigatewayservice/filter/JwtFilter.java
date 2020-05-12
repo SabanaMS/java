@@ -21,7 +21,9 @@ public class JwtFilter extends GenericFilterBean {
      * If authorization header is invalid, throw Exception with message.
      * Parse the JWT token and get claims from the token using the secret key
      * Set the request attribute with the retrieved claims
-     * Call FilterChain object's doFilter() method */
+     * Call FilterChain object's doFilter() method
+     *
+     * Note: secretKey should be "goldysSecret" */
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
