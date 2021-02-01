@@ -2,8 +2,17 @@ package com.goldys.enquiryservice.service;
 
 import com.goldys.enquiryservice.exception.EnquiryNotFoundException;
 import com.goldys.enquiryservice.model.Enquiry;
+import com.goldys.enquiryservice.repository.EnquiryRepository;
 
 import java.util.List;
+import java.util.Optional;
+
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
 
 /*
  * This class is implementing the EnquiryService interface. This class has to be annotated with
@@ -12,21 +21,31 @@ import java.util.List;
  * clarifying it's role.
  *
  * */
+@Service
+@CacheConfig(cacheNames="enquiry")
 public class EnquiryServiceImpl implements EnquiryService {
 
     /*
      * Constructor Autowiring should be implemented for the EnquiryRepository
      * and RabbitTemplate.
      */
+	private EnquiryRepository enquiryRepository;
+	private RabbitTemplate rabbitTemplate;
 
-
+	@Autowired
+	 public EnquiryServiceImpl(EnquiryRepository enquiryRepository, RabbitTemplate rabbitTemplate) {
+			super();
+			this.enquiryRepository = enquiryRepository;
+			this.rabbitTemplate = rabbitTemplate;
+		}
     /*
      * Add a new enquiry.
      * @CacheEvict annotation is to be used to indicate the removal of all values,
      * so that fresh values can be loaded into the cache again.
      */
-
-    public Enquiry addNewEnquiry(Enquiry enquiry) {
+	@CacheEvict(value = "enquiry",allEntries = true)
+	@Override
+	public Enquiry addNewEnquiry(Enquiry enquiry) {
         return null;
     }
 
@@ -36,8 +55,10 @@ public class EnquiryServiceImpl implements EnquiryService {
      * Caching should be implemented to reduce method calls.
      */
 
+	@Cacheable(value="enquiry")
+    @Override
     public List<Enquiry> listAllEnquiries() {
-        return null;
+        return enquiryRepository.findAll();
     }
 
 
@@ -46,8 +67,14 @@ public class EnquiryServiceImpl implements EnquiryService {
      * enquiry with specified enquiryCode does not exist.
      * Caching should be implemented to reduce method calls.
      */
+	@Cacheable(value="enquiry",key="#enquiryCode")
+    @Override
     public Enquiry getEnquiryByCode(String enquiryCode) throws EnquiryNotFoundException {
-        return null;
+    	Optional<Enquiry> enquiryExist = enquiryRepository.findById(enquiryCode);
+		if(enquiryExist.isEmpty()) {
+			throw new EnquiryNotFoundException();
+		}
+        return enquiryRepository.findById(enquiryCode).get();
     }
 
 }

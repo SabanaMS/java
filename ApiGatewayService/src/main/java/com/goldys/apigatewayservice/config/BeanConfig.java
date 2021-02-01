@@ -1,11 +1,22 @@
 package com.goldys.apigatewayservice.config;
 
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+
+import com.goldys.apigatewayservice.filter.JwtFilter;
 
 /*
  * Annotate the class with @Configuration
  */
+@Configuration
 public class BeanConfig {
 
     /*
@@ -19,10 +30,17 @@ public class BeanConfig {
      *      - '/ticketservice/api/v1/ticketservice/*'
      */
 
-
+@Bean
     public FilterRegistrationBean jwtFilter() {
-
-        return null;
+    	 FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+         filterRegistrationBean.setFilter(new JwtFilter());
+         String[] urlPatterns = new String[4];
+         urlPatterns[0] = "/gymservice/api/v1/gymservice/*";
+         urlPatterns[1] ="/gymservice/api/v2/gymservice/*";
+         urlPatterns[2] ="/enquiryservice/api/v1/enquiryservice/admin/*";
+         urlPatterns[3] ="/ticketservice/api/v1/ticketservice/*";
+         filterRegistrationBean.addUrlPatterns(urlPatterns);
+         return filterRegistrationBean;
 
     }
 
@@ -30,8 +48,14 @@ public class BeanConfig {
      *  Bean to be created for CorsFilter so that requests from any origin
      */
     public CorsFilter corsFilter() {
-        return null;
-
+    	CorsConfiguration config = new CorsConfiguration();
+    	config.setAllowCredentials(true);
+        config.addAllowedOrigin("*");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
     }
 
 }

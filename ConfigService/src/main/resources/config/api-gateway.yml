@@ -7,3 +7,5 @@
 # - ticketservice (Eureka Service Registry serviceId: ticket-service)
 #
 # This service should register with Eureka Service Registry running in "http://localhost:8761/"
+server:
+  port: 9000

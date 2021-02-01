@@ -3,3 +3,5 @@
 # It should connect to the Zipkins container running using the URL "http://localhost:9411/"
 #
 # This service should register with Eureka Service Registry running in "http://localhost:8761/"
+server:
+  port: 8092

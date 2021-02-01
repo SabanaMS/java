@@ -1,5 +1,21 @@
 package com.goldys.enquiryservice.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.goldys.enquiryservice.exception.EnquiryNotFoundException;
+import com.goldys.enquiryservice.model.Enquiry;
+import com.goldys.enquiryservice.service.EnquiryService;
+
 /*
  * As in this assignment, we are working with creating RESTful web service, hence annotate
  * the class with @RestController annotation. A class annotated with @Controller annotation
@@ -10,7 +26,8 @@ package com.goldys.enquiryservice.controller;
  *
  * Please note that the default path to use this controller should be "/api/v1/enquiryservice"
  */
-
+@RestController
+@RequestMapping("api/v1/enquiryservice")
 public class EnquiryController {
 
     /*
@@ -19,8 +36,11 @@ public class EnquiryController {
      * implemented for EnquiryServiceProxy interface which is used for implementing
      * client side load balanced.
      */
-
-
+	private EnquiryService enquiryService;
+	@Autowired
+	public EnquiryController(EnquiryService enquiryService) {
+		this.enquiryService = enquiryService;
+	}
 
     /* API Version: 1.0
      * Define a handler method which will get us all enquiries.
@@ -32,7 +52,10 @@ public class EnquiryController {
      * This handler method should map to the URL "/api/v1/enquiryservice/admin/" using HTTP GET
      * method.
      */
-
+	@GetMapping("/admin/")
+	public ResponseEntity<List<Enquiry>> getAllEnquiries() {
+		return new ResponseEntity<List<Enquiry>>((List<Enquiry>)enquiryService.listAllEnquiries(), HttpStatus.OK);
+	}
 
 
     /* API Version: 1.0
@@ -49,7 +72,15 @@ public class EnquiryController {
      *
      */
 
-
+	@GetMapping("/admin/{enquiryCode}")
+	public ResponseEntity<Enquiry> getEnquiryByEnquiryCode(@PathVariable("enquiryCode") String enquiryCode){
+		try {
+			return new ResponseEntity<Enquiry>((Enquiry)enquiryService.getEnquiryByCode(enquiryCode), HttpStatus.OK);
+		} catch (EnquiryNotFoundException e) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
+		
+	}
 
     /* API Version: 1.0
      * Define a handler method which will create a new enquiry by reading the Serialized
@@ -66,6 +97,10 @@ public class EnquiryController {
      * method".
      */
 
-
+	@PostMapping
+    public ResponseEntity<Enquiry> addNewEnquiry(@RequestBody Enquiry enquiry) {
+		Enquiry addedEnquiry = enquiryService.addNewEnquiry(enquiry);
+        return new ResponseEntity<>(addedEnquiry, HttpStatus.CREATED);
+    }
 
 }

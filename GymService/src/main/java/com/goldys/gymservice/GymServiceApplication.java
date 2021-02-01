@@ -1,6 +1,10 @@
 package com.goldys.gymservice;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /*
 Annotate this class with the following annotations:
@@ -9,7 +13,10 @@ Annotate this class with the following annotations:
 3. @EnableCaching - to enable caching in the application
 4. @EnableFeignClient - to mark this application as a feign client
 */
-
+@SpringBootApplication
+@EnableEurekaClient
+@EnableCaching
+@EnableFeignClients
 public class GymServiceApplication {
 
     public static void main(String[] args) {

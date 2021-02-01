@@ -1,2 +1,4 @@
 # config server should start with port number 8888. The default profile will
 # be "native"
+server:
+  port: 8888
