@@ -77,7 +77,7 @@ public class TicketServiceImpl implements TicketService {
 		if (ticketExist.isEmpty()) {
 			throw new TicketNotFoundException();
 		}
-        return ticketExist.get();
+        return ticketRepository.findById(ticketId).get();
     }
 
 
