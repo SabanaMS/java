@@ -2,10 +2,11 @@ package com.goldys.userservice.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Entity;
 import javax.persistence.Id;
 
 /* This class should be annotated with @Entity annotation */
-
+@Entity
 public class User implements Serializable {
     /*
      * This class should have three fields of type String

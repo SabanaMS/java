@@ -14,7 +14,7 @@ public class TestCoverageFinder {
 
         boolean flag = false;
         int counter = 0;
-        Method[] methods = Class.forName("com.goldys.gymservice.commander.model.ProgramTest")
+        Method[] methods = Class.forName("com.goldys.gymservice.test.model.ProgramTest")
                 .getDeclaredMethods();
         for (Method method : methods) {
             if ((method.getAnnotation(Test.class)) != null) {
@@ -32,7 +32,7 @@ public class TestCoverageFinder {
 
         boolean flag = false;
         int counter = 0;
-        Method[] methods = Class.forName("com.goldys.gymservice.commander.service.ProgramServiceTest")
+        Method[] methods = Class.forName("com.goldys.gymservice.test.service.ProgramServiceTest")
                 .getDeclaredMethods();
         for (Method method : methods) {
             if ((method.getAnnotation(Test.class)) != null) {
@@ -49,7 +49,7 @@ public class TestCoverageFinder {
 
         boolean flag = false;
         int counter = 0;
-        Method[] methods = Class.forName("com.goldys.gymservice.commander.controller.v1.ProgramControllerV1Test")
+        Method[] methods = Class.forName("com.goldys.gymservice.test.controller.v1.ProgramControllerV1Test")
                 .getDeclaredMethods();
         for (Method method : methods) {
             if ((method.getAnnotation(Test.class)) != null) {
@@ -66,7 +66,7 @@ public class TestCoverageFinder {
 
         boolean flag = false;
         int counter = 0;
-        Method[] methods = Class.forName("com.goldys.gymservice.commander.controller.v2.ProgramControllerV2Test")
+        Method[] methods = Class.forName("com.goldys.gymservice.test.controller.v2.ProgramControllerV2Test")
                 .getDeclaredMethods();
         for (Method method : methods) {
             if ((method.getAnnotation(Test.class)) != null) {
