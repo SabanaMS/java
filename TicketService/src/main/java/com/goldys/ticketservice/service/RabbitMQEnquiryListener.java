@@ -1,5 +1,12 @@
 package com.goldys.ticketservice.service;
 
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.goldys.ticketservice.model.Ticket;
+import com.goldys.ticketservice.repository.TicketRepository;
+
 /*
  * This class is implementing the EnquiryListener interface. This class has to be annotated with
  * @Service annotation.
@@ -7,12 +14,18 @@ package com.goldys.ticketservice.service;
  * clarifying it's role.
  *
  * */
+@Service
 public class RabbitMQEnquiryListener implements EnquiryListener {
 
     /*
      * Constructor Autowiring should be implemented for the TicketRepository
      * and Ticket.
      */
+	@Autowired
+    private TicketRepository ticketRepository;
+
+    @Autowired
+    private Ticket ticket;
 
 
     /*
@@ -20,7 +33,11 @@ public class RabbitMQEnquiryListener implements EnquiryListener {
      * it should add a new ticket with the enquiryCode which should be coming from
      * the queue
      */
-    public void addNewTicket(String enquiryCode) {
-
-    }
+	@RabbitListener(queues = "enquiry.new.queue")
+	public void addNewTicket(String enquiryCode) {
+		ticket = new Ticket();
+		ticket.setEnquiryCode(enquiryCode);
+		ticket.setOpen(true);
+		ticketRepository.save(ticket);
+	}
 }

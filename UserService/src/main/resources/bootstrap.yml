@@ -1,3 +1,9 @@
 # application name should be "user-service" and the application configuration should
 # be retrieved from "http://localhost:8888 which is the URL for externalized ConfigServer"
+spring:
+  application:
+    name: user-service
+  cloud:
+    config:
+      uri: http://localhost:8888
 

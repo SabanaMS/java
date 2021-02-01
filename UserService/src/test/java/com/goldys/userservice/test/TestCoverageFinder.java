@@ -14,7 +14,7 @@ public class TestCoverageFinder {
 
         boolean flag = false;
         int counter = 0;
-        Method[] methods = Class.forName("com.goldys.userservice.commander.model.UserTest")
+        Method[] methods = Class.forName("com.goldys.userservice.test.model.UserTest")
                 .getDeclaredMethods();
         for (Method method : methods) {
             if ((method.getAnnotation(Test.class)) != null) {
@@ -32,7 +32,7 @@ public class TestCoverageFinder {
 
         boolean flag = false;
         int counter = 0;
-        Method[] methods = Class.forName("com.goldys.userservice.commander.service.UserServiceTest")
+        Method[] methods = Class.forName("com.goldys.userservice.test.service.UserServiceTest")
                 .getDeclaredMethods();
         for (Method method : methods) {
             if ((method.getAnnotation(Test.class)) != null) {
@@ -49,7 +49,7 @@ public class TestCoverageFinder {
 
         boolean flag = false;
         int counter = 0;
-        Method[] methods = Class.forName("com.goldys.userservice.commander.controller.UserControllerTest")
+        Method[] methods = Class.forName("com.goldys.userservice.test.controller.UserControllerTest")
                 .getDeclaredMethods();
         for (Method method : methods) {
             if ((method.getAnnotation(Test.class)) != null) {

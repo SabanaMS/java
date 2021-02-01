@@ -1,4 +1,14 @@
 # Service registry should start in port 8761.
 # It should connect to the Zipkins container running using the URL "http://localhost:9411/"
+spring:
+  application:
+    name: eureka-service
+  zipkin:
+    base-url: http://localhost:9411/
+eureka:
+  client:
+    fetchRegistry: false
+    registerWithEureka: false
 server:
   port: 8761
+

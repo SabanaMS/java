@@ -46,7 +46,9 @@ public class EnquiryServiceImpl implements EnquiryService {
 	@CacheEvict(value = "enquiry",allEntries = true)
 	@Override
 	public Enquiry addNewEnquiry(Enquiry enquiry) {
-        return null;
+		Enquiry savedEnquiry = enquiryRepository.save(enquiry);
+		rabbitTemplate.convertAndSend("enquiry.new.queue",savedEnquiry.getEnquiryCode());
+        return savedEnquiry;
     }
 
 

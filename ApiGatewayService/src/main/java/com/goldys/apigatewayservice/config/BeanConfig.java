@@ -32,7 +32,7 @@ public class BeanConfig {
 
 @Bean
     public FilterRegistrationBean jwtFilter() {
-    	 FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+    	 /*FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
          filterRegistrationBean.setFilter(new JwtFilter());
          String[] urlPatterns = new String[4];
          urlPatterns[0] = "/gymservice/api/v1/gymservice/*";
@@ -40,7 +40,16 @@ public class BeanConfig {
          urlPatterns[2] ="/enquiryservice/api/v1/enquiryservice/admin/*";
          urlPatterns[3] ="/ticketservice/api/v1/ticketservice/*";
          filterRegistrationBean.addUrlPatterns(urlPatterns);
-         return filterRegistrationBean;
+         return filterRegistrationBean;*/
+		 FilterRegistrationBean filter = new FilterRegistrationBean();
+	     filter.setFilter(new JwtFilter());
+	     filter.addUrlPatterns("/gymservice/api/v1/gymservice/*");
+	     filter.addUrlPatterns("/gymservice/api/v2/gymservice/*");
+	     filter.addUrlPatterns("/enquiryservice/api/v1/enquiryservice/admin/*");
+	     filter.addUrlPatterns("/ticketservice/api/v1/ticketservice/*");
+	
+	     return filter;
+
 
     }
 
@@ -48,14 +57,23 @@ public class BeanConfig {
      *  Bean to be created for CorsFilter so that requests from any origin
      */
     public CorsFilter corsFilter() {
-    	CorsConfiguration config = new CorsConfiguration();
-    	config.setAllowCredentials(true);
+    	UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+
+
+        config.setAllowCredentials(true);
         config.addAllowedOrigin("*");
-        config.addAllowedHeader("*");
-        config.addAllowedMethod("*");
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
+        config.addAllowedMethod("OPTIONS");
+        config.addAllowedMethod("HEAD");
+        config.addAllowedMethod("GET");
+        config.addAllowedMethod("POST");
+        config.addAllowedMethod("PUT");
+        config.addAllowedMethod("DELETE");
+        config.addAllowedMethod("PATCH");
+        source.registerCorsConfiguration("*", config);
+
         return new CorsFilter(source);
+
     }
 
 }

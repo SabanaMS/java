@@ -1,5 +1,18 @@
 package com.goldys.gymservice.controller.v2;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.goldys.gymservice.model.Program;
+import com.goldys.gymservice.service.ProgramService;
+
 /*
  * As in this assignment, we are working with creating RESTful web service, hence annotate
  * the class with @RestController annotation. A class annotated with @Controller annotation
@@ -10,6 +23,8 @@ package com.goldys.gymservice.controller.v2;
  *
  * Please note that the default path to use this controller should be "/api/v2/gymservice"
  */
+@RestController
+@RequestMapping("/api/v2/gymservice")
 public class ProgramControllerV2 {
 
     /*
@@ -18,7 +33,12 @@ public class ProgramControllerV2 {
      * implemented for GymServiceProxy interface which is used for implementing
      * client side load balanced.
      */
-
+	private ProgramService programService;
+	ResponseEntity<?> responseEntity;
+	@Autowired
+	public ProgramControllerV2(ProgramService programService) {
+		this.programService = programService;
+	}
 
 
     /* API Version: 2.0
@@ -31,7 +51,12 @@ public class ProgramControllerV2 {
      * This handler method should map to the URL "/api/v2/gymservice/showAllActive" using HTTP GET
      * method.
      */
-
+	@GetMapping("/showAllActive")
+	public ResponseEntity<?> listAllPrograms() {
+		List<Program> programs = programService.listAllActivePrograms();
+		responseEntity = new ResponseEntity<>(programs, HttpStatus.OK);
+		return responseEntity;
+	}
 
 
     /* API Version: 2.0
@@ -44,7 +69,13 @@ public class ProgramControllerV2 {
      * This handler method should map to the URL "/api/v2/gymservice/{durationInMonths}" using HTTP GET
      * method where "durationInMonths" should be replaced by a durationInMonths without {}
      */
-
+	@GetMapping("/{durationInMonths}")
+	public ResponseEntity<?> findProgramByDuration(@PathVariable("durationInMonths") int durationInMonths) {
+		List<Program> programs = programService.getProgramByDuration(durationInMonths);
+		responseEntity = new ResponseEntity<>(programs, HttpStatus.OK);
+		
+		return responseEntity;
+	}
 
 
 }

@@ -2,6 +2,8 @@ package com.goldys.userservice.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Id;
+
 /* This class should be annotated with @Entity annotation */
 
 public class User implements Serializable {
@@ -12,31 +14,41 @@ public class User implements Serializable {
      * fields along with the no-arg , parameterized	constructor and toString method.
      *
      */
+	@Id
+	private String email;
+    private String password;
+    private String role;
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
+	}
 
+	public User(String email, String password, String role) {
+		this.email = email;
+		this.password = password;
+		this.role = role;
+	}
 
-    public String getEmail() {
-        return null;
-    }
+	public User() {
+	}
 
-    public void setEmail(String email) {
-
-    }
-
-    public String getPassword() {
-        return null;
-    }
-
-    public void setPassword(String password) {
-
-    }
-
-    public String getRole() {
-        return null;
-    }
-
-    public void setRole(String role) {
-
-    }
-
+	@Override
+	public String toString() {
+		return "User{" + "email='" + email + '\'' + ", password='" + password + '\'' + ", role='" + role + '\'' + '}';
+	}
 
 }

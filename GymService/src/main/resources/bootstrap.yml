@@ -1,2 +1,9 @@
 # application name should be "gym-service" and the application configuration should
 # be retrieved from "http://localhost:8888 which is the URL for externalized ConfigServer"
+spring:
+  application:
+    name: gym-service
+  cloud:
+    config:
+      uri: http://localhost:8888
+

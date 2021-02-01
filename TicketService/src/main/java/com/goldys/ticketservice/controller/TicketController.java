@@ -1,5 +1,20 @@
 package com.goldys.ticketservice.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.goldys.ticketservice.exception.TicketNotFoundException;
+import com.goldys.ticketservice.exception.UserUnauthorizedException;
+import com.goldys.ticketservice.model.Ticket;
+import com.goldys.ticketservice.service.TicketService;
+
 /*
  * As in this assignment, we are working with creating RESTful web service, hence annotate
  * the class with @RestController annotation. A class annotated with @Controller annotation
@@ -10,14 +25,21 @@ package com.goldys.ticketservice.controller;
  *
  * Please note that the default path to use this controller should be "/api/v1/ticketservice"
  */
-
+@RestController
+@RequestMapping("/api/v1/ticketservice")
 public class TicketController {
 
     /*
      * Constructor Autowiring should be implemented for the Service Layer for Tickets. Please note that we
      * should not create any object using the new keyword.
      */
+	private TicketService ticketService;
 
+	@Autowired
+	public TicketController(TicketService ticketService) {
+		this.ticketService = ticketService;
+	}
+	
 
     /* API Version: 1.0
      * Define a handler method which will get us all tickets.
@@ -30,6 +52,10 @@ public class TicketController {
      * method.
      */
 
+	@GetMapping
+    public ResponseEntity<?> listAllTickets() {
+        return new ResponseEntity<>(ticketService.listAllTickets(), HttpStatus.OK);
+    }
 
     /* API Version: 1.0
      * Define a handler method which will get us all open tickets.
@@ -42,6 +68,10 @@ public class TicketController {
      * method.
      */
 
+	@GetMapping("/open")
+	public ResponseEntity<?> listAllOpenTickets() {
+		return new ResponseEntity<>(ticketService.listAllOpenTickets(), HttpStatus.OK);
+	}
 
 
     /* API Version: 1.0
@@ -57,6 +87,14 @@ public class TicketController {
      * method, where "ticketId" should be replaced by a ticketId without {}
      *
      */
+	@GetMapping("/{ticketId}")
+	public ResponseEntity<?> getTicket(@PathVariable String ticketId) {
+		try {
+			return new ResponseEntity<>(ticketService.getTicketByTicketId(ticketId), HttpStatus.OK);
+		} catch (TicketNotFoundException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+		}
+	}
 
 
 
@@ -75,6 +113,17 @@ public class TicketController {
      * method.
      */
 
+	@PutMapping
+	public ResponseEntity<?> updateTicket(@RequestBody Ticket ticket) {
+
+		try {
+			return new ResponseEntity<>(ticketService.updateTicket(ticket), HttpStatus.OK);
+		} catch (TicketNotFoundException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+		} catch (UserUnauthorizedException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
+		}
+	}
 
 
 }

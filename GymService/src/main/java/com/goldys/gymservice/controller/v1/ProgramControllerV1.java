@@ -1,5 +1,24 @@
 package com.goldys.gymservice.controller.v1;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.goldys.gymservice.exception.ProgramAlreadyExistsException;
+import com.goldys.gymservice.exception.ProgramNotFoundException;
+import com.goldys.gymservice.model.Program;
+import com.goldys.gymservice.service.ProgramService;
+
 /*
  * As in this assignment, we are working with creating RESTful web service, hence annotate
  * the class with @RestController annotation. A class annotated with @Controller annotation
@@ -10,7 +29,8 @@ package com.goldys.gymservice.controller.v1;
  *
  * Please note that the default path to use this controller should be "/api/v1/gymservice"
  */
-
+@RestController
+@RequestMapping("/api/v1/gymservice")
 public class ProgramControllerV1 {
 
     /*
@@ -20,7 +40,12 @@ public class ProgramControllerV1 {
      * client side load balanced.
      */
 
-
+	private ProgramService programService;
+	ResponseEntity<?> responseEntity;
+	@Autowired
+	public ProgramControllerV1(ProgramService programService) {
+		this.programService = programService;
+	}
 
 
     /* API Version: 1.0
@@ -33,7 +58,12 @@ public class ProgramControllerV1 {
      * This handler method should map to the URL "/api/v1/gymservice" using HTTP GET
      * method.
      */
-
+	@GetMapping
+	public ResponseEntity<?> listAllPrograms() {
+		List<Program> programs = programService.listAllPrograms();
+		responseEntity = new ResponseEntity<>(programs, HttpStatus.OK);
+		return responseEntity;
+	}
 
 
     /* API Version: 1.0
@@ -49,7 +79,17 @@ public class ProgramControllerV1 {
      * method, where "programCode" should be replaced by a programCode without {}
      */
 
-
+	@GetMapping("/{programCode}")
+	public ResponseEntity<?> findProgramByProgramCode(@PathVariable("programCode") String programCode) {
+		try {
+			Program program = programService.getProgramByCode(programCode);
+			responseEntity = new ResponseEntity<>(program, HttpStatus.OK);
+		} catch (ProgramNotFoundException e) {
+			responseEntity = new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+		}
+		
+		return responseEntity;
+	}
 
 
     /* API Version: 1.0
@@ -65,7 +105,17 @@ public class ProgramControllerV1 {
      * This handler method should map to the URL "/api/v1/gymservice" using HTTP POST
      * method".
      */
-
+	@PostMapping
+	public ResponseEntity<?> addNewProgram(@RequestBody Program program) {
+		try {
+			Program programSaved = programService.addNewProgram(program);
+			responseEntity = new ResponseEntity<>(programSaved, HttpStatus.CREATED);
+		} catch (ProgramAlreadyExistsException e) {
+			responseEntity = new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+		}
+		
+		return responseEntity;
+	}
 
 
     /* API Version: 1.0
@@ -82,7 +132,17 @@ public class ProgramControllerV1 {
      * method.
      */
 
-
+	@PutMapping
+	public ResponseEntity<?> updateProgram(@RequestBody Program program) {
+		try {
+			Program programSaved = programService.updateExistingProgram(program);
+			responseEntity = new ResponseEntity<>(programSaved, HttpStatus.OK);
+		} catch (ProgramNotFoundException e) {
+			responseEntity = new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+		}
+		
+		return responseEntity;
+	}
 
 
     /* API Version: 1.0
@@ -98,6 +158,16 @@ public class ProgramControllerV1 {
      * This handler method should map to the URL "/api/v1/gymservice/{programCode}" using HTTP DELETE
      * method, where "programCode" should be replaced by a programCode without {}
      */
-
+	@DeleteMapping("/{programCode}")
+	public ResponseEntity<?> deleteProgram(@PathVariable("programCode") String programCode) {
+		try {
+			programService.deleteProgram(programCode);
+			responseEntity = new ResponseEntity<>(programCode, HttpStatus.OK);
+		} catch (ProgramNotFoundException e) {
+			responseEntity = new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+		}
+		
+		return responseEntity;
+	}
 
 }
