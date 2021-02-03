@@ -1,5 +1,6 @@
 package com.goldys.userservice.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,6 +102,22 @@ public class UserServiceImpl implements UserService {
     		}
     	}
         return false;
+    }
+    
+    @Cacheable(value="users")
+    @Override
+    public List<User> listAllUsers() {
+    	return userRepository.findAll();
+    }
+    
+    @Override
+    public User getUserByEmail(String email) throws UserNotFoundException {
+    	Optional<User> userResult = userRepository.findById(email);
+		if (userResult.isEmpty()) {
+			throw new UserNotFoundException();
+		}
+		User existingUser = userResult.get();
+		return existingUser;
     }
 
 }

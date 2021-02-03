@@ -1,5 +1,7 @@
 package com.goldys.userservice.service;
 
+import java.util.List;
+
 import com.goldys.userservice.exception.InvalidCredentialsException;
 import com.goldys.userservice.exception.UserAlreadyExistsException;
 import com.goldys.userservice.exception.UserNotFoundException;
@@ -18,6 +20,10 @@ public interface UserService {
     User login(User user) throws UserNotFoundException, InvalidCredentialsException;
 
     boolean validateUser(String email);
+
+	List<User> listAllUsers();
+
+	User getUserByEmail(String email) throws UserNotFoundException;
 
 
 }
