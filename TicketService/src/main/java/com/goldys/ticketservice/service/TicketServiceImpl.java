@@ -3,12 +3,15 @@ package com.goldys.ticketservice.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import com.goldys.ticketservice.exception.TicketNotFoundException;
@@ -28,10 +31,12 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 @CacheConfig(cacheNames="ticket")
 public class TicketServiceImpl implements TicketService {
 
+	private static final Logger logger = LoggerFactory.getLogger(TicketServiceImpl.class);
     /*
      * Constructor Autowiring should be implemented for the TicketRepository
      * and RestTemplate.
      */
+	
 	private TicketRepository ticketRepository;
 	private RestTemplate restTemplate;
 	 private ResponseEntity responseEntity;
@@ -73,6 +78,7 @@ public class TicketServiceImpl implements TicketService {
 	@Cacheable(value="ticketCache")
     @Override
     public Ticket getTicketByTicketId(String ticketId) throws TicketNotFoundException {
+		logger.info("ticketId"+ticketId);
 		Optional<Ticket> ticketExist = ticketRepository.findById(ticketId);
 		if (ticketExist.isEmpty()) {
 			throw new TicketNotFoundException();
@@ -102,11 +108,16 @@ public class TicketServiceImpl implements TicketService {
 		if(ticketsAvailable.isEmpty()) {
 			throw new TicketNotFoundException();
 		}
-		responseEntity = restTemplate.getForEntity(
-				"http://localhost:9000/userservice/api/v1/userservice/" + ticket.getExecutiveEmail(), String.class);
-		if (responseEntity.getBody().equals("false")) {
-			throw new UserUnauthorizedException();
-		}
+		logger.debug("email {}",ticket.getExecutiveEmail());
+		if(!StringUtils.isEmpty(ticket.getExecutiveEmail())) {
+			responseEntity = restTemplate.getForEntity(
+					"http://localhost:9000/userservice/api/v1/userservice/" + ticket.getExecutiveEmail(), String.class);
+			if (responseEntity == null
+					|| responseEntity.getBody().equals("false")) {
+				throw new UserUnauthorizedException();
+			}
+		} 
+		
 		return ticketRepository.save(ticket);
 
     }
@@ -123,11 +134,6 @@ public class TicketServiceImpl implements TicketService {
 		}
 		Ticket ticketSaved = ticketsAvailable.get();
 		ticketSaved.setExecutiveEmail("default");
-		responseEntity = restTemplate.getForEntity(
-				"http://localhost:9000/userservice/api/v1/userservice/" + ticketSaved.getExecutiveEmail(), String.class);
-		if (responseEntity.getBody().equals("false")) {
-			throw new UserUnauthorizedException();
-		}
         return ticketRepository.save(ticketSaved);
 
     }

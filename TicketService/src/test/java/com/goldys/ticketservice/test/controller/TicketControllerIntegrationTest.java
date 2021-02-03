@@ -97,7 +97,7 @@ public class TicketControllerIntegrationTest {
 
         ticket.setTicketId("40");
         mockMvc.perform(put("/api/v1/ticketservice/").contentType(MediaType.APPLICATION_JSON).content(asJsonString(ticket)))
-                .andExpect(status().isOk()).andDo(MockMvcResultHandlers.print());
+                .andExpect(status().isNotFound()).andDo(MockMvcResultHandlers.print());
 
     }
 

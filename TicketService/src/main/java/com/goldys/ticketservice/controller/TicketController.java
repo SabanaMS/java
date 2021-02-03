@@ -1,5 +1,7 @@
 package com.goldys.ticketservice.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +30,7 @@ import com.goldys.ticketservice.service.TicketService;
 @RestController
 @RequestMapping("/api/v1/ticketservice")
 public class TicketController {
-
+	private static final Logger logger = LoggerFactory.getLogger(TicketController.class);
     /*
      * Constructor Autowiring should be implemented for the Service Layer for Tickets. Please note that we
      * should not create any object using the new keyword.
@@ -54,6 +56,7 @@ public class TicketController {
 
 	@GetMapping
     public ResponseEntity<?> listAllTickets() {
+		logger.debug("listAllTickets");
         return new ResponseEntity<>(ticketService.listAllTickets(), HttpStatus.OK);
     }
 
